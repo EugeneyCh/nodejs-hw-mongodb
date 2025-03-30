@@ -1,5 +1,5 @@
 import express from 'express';
-// import pino from 'pino-http';
+import pino from 'pino-http';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
@@ -16,13 +16,13 @@ export const startServer = () => {
   app.use(cors());
   dotenv.config();
 
-  //   app.use(
-  //     pino({
-  //       transport: {
-  //         target: 'pino-pretty',
-  //       },
-  //     }),
-  //   );
+  app.use(
+    pino({
+      transport: {
+        target: 'pino-pretty',
+      },
+    }),
+  );
 
   app.get('/api/contacts', async (req, res) => {
     const data = await getContacts();
@@ -39,12 +39,12 @@ export const startServer = () => {
 
     const data = await getContactsById(id);
 
-    // if (!data) {
-    //   return res.status(404).json({
-    //     status: 404,
-    //     message: `Movie with id=${id} not found`,
-    //   });
-    // }
+    if (!data) {
+      return res.status(404).json({
+        status: 404,
+        message: `Contact with id=${id} not found`,
+      });
+    }
 
     res.json({
       status: 200,
