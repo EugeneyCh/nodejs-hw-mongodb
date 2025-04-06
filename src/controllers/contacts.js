@@ -39,7 +39,7 @@ export const addContactController = async (req, res) => {
 
   res.status(201).json({
     status: 201,
-    message: 'Successfully add movie',
+    message: 'Successfully created a contact!',
     data,
   });
 };
@@ -58,21 +58,20 @@ export const upsertContactController = async (req, res) => {
   });
 };
 
-export const patchContactsController = async (req, res) => {
+export const patchContactController = async (req, res) => {
   const { id } = req.params;
-  const { result } = await updateContact(id, req.body);
+  const result = await updateContact(id, req.body);
+  console.log('Id & result = ', id, result);
 
   if (!result) {
-    throw createHttpError(404, `Contact with id=${id} not found`);
+    throw createHttpError(404, `Contact not found`);
   }
 
   res.json({
     status: 200,
-    message: 'Successfully update contact',
+    message: 'Successfully patched a contact!',
     data: result.data,
   });
-
-  return result;
 };
 
 export const deleteContactController = async (req, res) => {
@@ -80,7 +79,7 @@ export const deleteContactController = async (req, res) => {
   const data = await deleteContactById(id);
 
   if (!data) {
-    throw createHttpError(404, `Contact with id=${id} not found`);
+    throw createHttpError(404, `Contact not found`);
   }
 
   res.status(204).send();
