@@ -4,4 +4,10 @@
   // data:
   // конкретне повідомлення про помилку, отримане з об'єкта помилки
 }
-// http-errors(404, "Contact not found")
+
+export const errorHandler = (error, req, res, next) => {
+  const { status = 500, message = 'Something went wrong' } = error;
+  res.status(status).json({
+    message,
+  });
+};
