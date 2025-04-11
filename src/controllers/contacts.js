@@ -18,6 +18,20 @@ export const getContactsController = async (req, res) => {
   });
 };
 
+// {
+//   "status": 200,
+//   "message": "Successfully found contacts!",
+//   "data": {
+//       "data": [/* contacts */],
+//       "page": 2,
+//       "perPage": 4,
+//       "totalItems": 6,
+//       "totalPages": 2,
+//       "hasPreviousPage": true,
+//       "hasNextPage": false
+//   }
+// }
+
 export const getContactsByIdController = async (req, res) => {
   const { id } = req.params;
 
