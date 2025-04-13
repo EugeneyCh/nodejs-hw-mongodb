@@ -19,7 +19,6 @@ import {
   contactAddSchema,
   contactUpdateSchema,
 } from '../validation/contacts.js';
-// import createHttpError from 'http-errors';
 
 const contactsRouter = Router();
 
