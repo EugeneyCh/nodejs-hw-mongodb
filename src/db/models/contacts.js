@@ -8,13 +8,14 @@ const contactSchema = new Schema(
       type: String,
       required: true,
     },
-
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     phoneNumber: {
       type: String,
       required: true,
-    },
-    email: {
-      type: String,
     },
     isFavourite: {
       type: Boolean,
@@ -39,8 +40,8 @@ contactSchema.post('findOneAndUpdate', handleSaveError);
 
 export const contactSortFields = [
   'name',
-  'phoneNumber',
   'email',
+  'phoneNumber',
   'isFavourite',
   'contactType',
 ];
