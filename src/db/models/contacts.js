@@ -1,6 +1,8 @@
 import { Schema, model } from 'mongoose';
 import { contactType } from '../../constants/contacts.js';
 import { handleSaveError, setUpdateSettings } from './hooks.js';
+import { emailRegexp } from '../../constants/auth.js';
+import { required } from 'joi';
 
 const contactSchema = new Schema(
   {
@@ -10,7 +12,9 @@ const contactSchema = new Schema(
     },
     email: {
       type: String,
+      match: emailRegexp,
       unique: true,
+      required: true,
     },
     phoneNumber: {
       type: String,
