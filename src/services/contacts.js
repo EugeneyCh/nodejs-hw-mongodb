@@ -1,4 +1,4 @@
-import ContactsCollections from '../db/models/Contacts.js';
+import ContactsCollections from '../db/models/contacts.js';
 
 import { sortList } from '../constants/index.js';
 
