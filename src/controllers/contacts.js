@@ -6,7 +6,7 @@ import {
   addContact,
   updateContact,
   deleteContactById,
-} from '../services/Contacts.js';
+} from '../services/contacts.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseContactFilterParams } from '../utils/contacts/parseContactFilterParams.js';
