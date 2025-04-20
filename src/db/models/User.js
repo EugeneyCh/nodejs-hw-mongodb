@@ -1,13 +1,24 @@
 import { Schema, model } from 'mongoose';
 
-import { handleSaveError, setUpdateSettings } from './hooks';
-import { emailRegexp } from '../../constants/auth';
+import { handleSaveError, setUpdateSettings } from './hooks.js';
+import { emailRegexp } from '../../constants/auth.js';
 
 const userSchema = new Schema(
   {
-    username: { type: String, required: true },
-    email: { type: String, match: emailRegexp, required: true },
-    password: { type: String, required: true },
+    username: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      match: emailRegexp,
+      unique: true,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
   { versionKey: false, timestamps: true },
 );

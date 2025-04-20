@@ -2,7 +2,6 @@ import { Schema, model } from 'mongoose';
 import { contactType } from '../../constants/contacts.js';
 import { handleSaveError, setUpdateSettings } from './hooks.js';
 import { emailRegexp } from '../../constants/auth.js';
-import { required } from 'joi';
 
 const contactSchema = new Schema(
   {
@@ -29,6 +28,11 @@ const contactSchema = new Schema(
       type: String,
       enum: contactType,
       default: contactType[2],
+      required: true,
+    },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
       required: true,
     },
   },
