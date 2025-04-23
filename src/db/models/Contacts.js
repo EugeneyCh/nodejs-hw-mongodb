@@ -12,8 +12,9 @@ const contactSchema = new Schema(
     email: {
       type: String,
       match: emailRegexp,
-      unique: true,
-      required: true,
+      // unique: true,
+      // required: true,
+
     },
     phoneNumber: {
       type: String,
@@ -22,7 +23,8 @@ const contactSchema = new Schema(
     isFavourite: {
       type: Boolean,
       default: false,
-      required: true,
+      // required: true,
+
     },
     contactType: {
       type: String,
