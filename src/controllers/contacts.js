@@ -77,12 +77,12 @@ export const upsertContactController = async (req, res) => {
   });
   const status = isNew ? 201 : 200;
 
-  // if (data.userId.toString() !== req.user._id.toString()) {
-  //   throw createHttpError(
-  //     403,
-  //     'You do not have permission to access this contact',
-  //   );
-  // }
+  if (data.userId.toString() !== req.user._id.toString()) {
+    throw createHttpError(
+      403,
+      'You do not have permission to access this contact',
+    );
+  }
 
   res.status(status).json({
     status,
