@@ -14,6 +14,7 @@ const contactSchema = new Schema(
       match: emailRegexp,
       // unique: true,
       // required: true,
+
     },
     phoneNumber: {
       type: String,
@@ -23,6 +24,7 @@ const contactSchema = new Schema(
       type: Boolean,
       default: false,
       // required: true,
+
     },
     contactType: {
       type: String,
