@@ -37,20 +37,21 @@ export const getContactsController = async (req, res) => {
 
 export const getContactsByIdController = async (req, res) => {
   const { id } = req.params;
+  const { _id: userId } = req.user;
 
-  const data = await getContactsById(id);
+  const data = await getContactsById(id, userId);
   // console.log('Data is ...', data);
 
   if (!data) {
     throw createHttpError(404, `Contact with id=${id} not found`);
   }
 
-  if (data.userId.toString() !== req.user._id.toString()) {
-    throw createHttpError(
-      403,
-      'You do not have permission to access this contact',
-    );
-  }
+  // if (data.userId.toString() !== req.user._id.toString()) {
+  //   throw createHttpError(
+  //     403,
+  //     'You do not have permission to access this contact',
+  //   );
+  // }
 
   res.json({
     status: 200,
@@ -72,17 +73,18 @@ export const addContactController = async (req, res) => {
 
 export const upsertContactController = async (req, res) => {
   const { id } = req.params;
-  const { data, isNew } = await updateContact(id, req.body, {
+  const { _id: userId } = req.user;
+  const { data, isNew } = await updateContact({ id, userId }, req.body, {
     upsert: true,
   });
   const status = isNew ? 201 : 200;
 
-  if (data.userId.toString() !== req.user._id.toString()) {
-    throw createHttpError(
-      403,
-      'You do not have permission to access this contact',
-    );
-  }
+  // if (data.userId.toString() !== req.user._id.toString()) {
+  //   throw createHttpError(
+  //     403,
+  //     'You do not have permission to access this contact',
+  //   );
+  // }
 
   res.status(status).json({
     status,
@@ -93,18 +95,12 @@ export const upsertContactController = async (req, res) => {
 
 export const patchContactController = async (req, res) => {
   const { id } = req.params;
-  const result = await updateContact(id, req.body);
+  const { _id: userId } = req.user;
+  const result = await updateContact({ id, userId }, req.body);
   console.log('Id & result = ', id, result);
 
   if (!result) {
     throw createHttpError(404, `Contact not found`);
-  }
-
-  if (result.userId.toString() !== req.user._id.toString()) {
-    throw createHttpError(
-      403,
-      'You do not have permission to access this contact',
-    );
   }
 
   res.json({
@@ -116,18 +112,19 @@ export const patchContactController = async (req, res) => {
 
 export const deleteContactController = async (req, res) => {
   const { id } = req.params;
-  const data = await deleteContactById(id);
+  const { _id: userId } = req.user;
+  const data = await deleteContactById(id, userId);
 
   if (!data) {
     throw createHttpError(404, `Contact not found`);
   }
 
-  if (data.userId.toString() !== req.user._id.toString()) {
-    throw createHttpError(
-      403,
-      'You do not have permission to access this contact',
-    );
-  }
+  // if (data.userId.toString() !== req.user._id.toString()) {
+  //   throw createHttpError(
+  //     403,
+  //     'You do not have permission to access this contact',
+  //   );
+  // }
 
   res.status(204).send();
 };
