@@ -11,6 +11,7 @@ import authRouter from './routers/auth.js';
 import contactsRouter from './routers/contacts.js';
 
 import { getEnvVar } from './utils/getEnvVar.js';
+import { UPLOAD_DIR } from './constants/index.js';
 
 export const startServer = () => {
   const app = express();
@@ -28,6 +29,8 @@ export const startServer = () => {
   app.use(notFoundHandler);
 
   app.use(errorHandler);
+
+  app.use('/uploads', express.static(UPLOAD_DIR));
 
   const PORT = Number(getEnvVar('PORT', '3000'));
 
