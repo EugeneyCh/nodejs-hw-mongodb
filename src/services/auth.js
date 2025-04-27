@@ -5,6 +5,9 @@ import { randomBytes } from 'node:crypto';
 import UserCollection from '../db/models/User.js';
 import SessionCollection from '../db/models/Session.js';
 
+import { sendEmail } from '../utils/sendEmail.js';
+import { getEnvVar } from '../utils/getEnvVar.js';
+
 import {
   accessTokenLifeTime,
   refreshTokenLifeTime,
@@ -38,7 +41,19 @@ export const registerUser = async (payload) => {
 
   const hashPassword = await bcrypt.hash(password, 10);
 
-  return await UserCollection.create({ ...payload, password: hashPassword });
+  const newUser = await UserCollection.create({
+    ...payload,
+    password: hashPassword,
+  });
+  const verifyEmail = {
+    to: email,
+    subject: 'Verify email',
+    html: `<a href="">Click verify email</a>`,
+  };
+
+  await sendEmail(verifyEmail);
+
+  return newUser;
 };
 
 export const loginUser = async (payload) => {
@@ -47,6 +62,11 @@ export const loginUser = async (payload) => {
   if (!user) {
     throw createHttpError(401, 'Email or password invalid');
   }
+
+  if (!user.verify) {
+    throw createHttpError(401, 'Email not verified');
+  }
+
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!passwordCompare) {
     throw createHttpError(401, 'Email or password invalid');
