@@ -8,7 +8,7 @@ const pass = getEnvVar('UKR_NET_PASSWORD');
 
 const nodemailerConfig = {
   host: 'smtp.ukr.net',
-  port: 465, // 25, 465, 2525
+  port: 465, //   25, 465, 2525
   secure: true,
   auth: {
     user,
