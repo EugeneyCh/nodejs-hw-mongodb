@@ -9,7 +9,7 @@ import fs from 'node:fs/promises';
 import UserCollection from '../db/models/User.js';
 import SessionCollection from '../db/models/Session.js';
 
-import { SMTP, TEMPLATES_DIR } from '../constants/index.js';
+import { JWT_SECRET, SMTP, TEMPLATES_DIR } from '../constants/index.js';
 import { sendEmail } from '../utils/sendEmail.js';
 import { getEnvVar } from '../utils/getEnvVar.js';
 
@@ -50,20 +50,20 @@ export const registerUser = async (payload) => {
     ...payload,
     password: hashPassword,
   });
-  const verifyEmail = {
-    to: email,
-    subject: 'Verify email',
-    html: `<a href="">Click verify email</a>`,
-  };
+  // const verifyEmail = {
+  //   to: email,
+  //   subject: 'Verify email',
+  //   html: `<a href="">Click verify email</a>`,
+  // };
 
-  await sendEmail(verifyEmail);
+  // await sendEmail(verifyEmail);
 
   return newUser;
 };
 
 export const verifyUser = (token) => {
   try {
-    const { email } = jwt.verify(token, jwtSecret);
+    const { email } = jwt.verify(token, JWT_SECRET);
     return UserCollection.findOneAndUpdate({ email }, { verify: true });
   } catch (error) {
     throw createHttpError(401, error.message);
@@ -149,12 +149,20 @@ export const sendResetToken = async (email) => {
     link: `${getEnvVar('APP_DOMAIN')}/reset-password?token=${resetToken}`,
   });
 
-  await sendEmail({
-    from: getEnvVar(SMTP.BREVO_SMTP_FROM),
-    to: email,
-    subject: 'Reset your password',
-    html,
-  });
+  try {
+    await sendEmail({
+      from: getEnvVar(SMTP.SMTP_FROM),
+      to: email,
+      subject: 'Reset your password',
+      html,
+    });
+  } catch (error) {
+    console.log(error);
+    throw createHttpError(
+      500,
+      'Failed to send the email, please try again later.',
+    );
+  }
 };
 
 export const resetPassword = async (payload) => {
@@ -163,7 +171,8 @@ export const resetPassword = async (payload) => {
   try {
     entries = jwt.verify(payload.token, getEnvVar('JWT_SECRET'));
   } catch (err) {
-    if (err instanceof Error) throw createHttpError(401, err.message);
+    if (err instanceof Error)
+      throw createHttpError(401, 'Token is expired or invalid.');
     throw err;
   }
 
@@ -182,4 +191,5 @@ export const resetPassword = async (payload) => {
     { _id: user._id },
     { password: encryptedPassword },
   );
+  await SessionCollection.findOneAndDelete({ userId: user._id });
 };
