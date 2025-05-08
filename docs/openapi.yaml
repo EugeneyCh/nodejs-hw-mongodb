@@ -1,18 +1,24 @@
 openapi: 3.1.0
 info:
   version: 1.0.0
-  title: ContactsList
+  title: Contacts_List
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description: <опис вашого додатку>
+  description: This is documentation of my contacts app
 tags:
-  # теги, що ви будете використовувати
+  - name: Contacts
+    description: This is documentation of my contacts app
+  - name: Auth
+    description: Auth operation
 servers:
   - url: http://localhost:3000
-  - url: #посилання на задеплоєний сайт
+  - url: https://nodejs-hw-mongodb-v35g.onrender.com
 paths:
-  # тут будуть посилання на ендпоінти
+  /contacts:
+    get:
+      $ref: ../swagger/paths/contacts.get.yaml
+
 components:
   securitySchemes:
     bearerAuth:
