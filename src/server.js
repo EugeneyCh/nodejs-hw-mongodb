@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import { logger } from './middlewares/logger.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 import authRouter from './routers/auth.js';
 import contactsRouter from './routers/contacts.js';
@@ -23,6 +24,8 @@ export const startServer = () => {
 
   app.use('/auth', authRouter);
   app.use('/contacts', contactsRouter);
+  app.use('/uploads', express.static(UPLOAD_DIR));
+  app.use('/api-docs', swaggerDocs());
 
   dotenv.config();
 
