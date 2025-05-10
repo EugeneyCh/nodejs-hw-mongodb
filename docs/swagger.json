@@ -21,10 +21,6 @@
     {
       "name": "Contacts",
       "description": "This is documentation of my contacts app"
-    },
-    {
-      "name": "Auth",
-      "description": "Auth operation"
     }
   ],
   "paths": {
