@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { contactType } from '../../constants/contacts.js';
+import { contactsType } from '../../constants/contacts.js';
 import { handleSaveError, setUpdateSettings } from './hooks.js';
 import { emailRegexp } from '../../constants/auth.js';
 
@@ -26,8 +26,8 @@ const contactSchema = new Schema(
     },
     contactType: {
       type: String,
-      enum: contactType,
-      default: contactType[2],
+      enum: contactsType,
+      default: contactsType[2],
       required: true,
     },
     userId: {
@@ -51,8 +51,8 @@ export const contactSortFields = [
   'name',
   'email',
   'phoneNumber',
-  'isFavourite',
   'contactType',
+  'isFavourite',
 ];
 
 const ContactsCollections = model('contact', contactSchema);
