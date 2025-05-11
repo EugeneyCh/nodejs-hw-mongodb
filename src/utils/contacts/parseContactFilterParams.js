@@ -11,7 +11,6 @@ export const parseContactFilterParams = ({ isFavourite, contactType }) => {
   const parsedType = contactsType.includes(contactType)
     ? contactType
     : undefined;
-  console.log('parsedType is ...', parsedType, 'Type is...', contactType);
 
   return { type: parsedType, isFavourite: parsedIsFavourite };
 };
