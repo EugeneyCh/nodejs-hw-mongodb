@@ -5,7 +5,6 @@ export const parseContactFilterParams = ({ isFavourite, contactType }) => {
 
   if (isFavourite === 'true') parsedIsFavourite = true;
   else if (isFavourite === 'false') parsedIsFavourite = false;
-  // else if (typeof isFavourite === 'boolean') parsedIsFavourite = isFavourite;
   else parsedIsFavourite = undefined;
 
   const parsedType = contactsType.includes(contactType)
